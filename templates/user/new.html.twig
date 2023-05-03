@@ -1,11 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New User{% endblock %}
+{% block title %}Nouvel utilisateur{% endblock %}
+
+{% block header_title %}<h1>Créer un utilisateur</h1>{% endblock %}
 
 {% block body %}
-    <h1>Create new User</h1>
 
-    {{ include('user/_form.html.twig') }}
+<section class="py-5">
+    <div class="container px-5">
+        <!-- Contact form-->
+        <div class="bg-light rounded-4 py-5 px-4 px-md-5">
+            <div class="text-center mb-5">
+                <div class="feature bg-primary bg-gradient-primary-to-secondary text-white rounded-3 mb-3"><i class="fa-solid fa-user"></i></div>
+                <h1 class="fw-bolder">Nouvel utilisateur</h1>
+                <p class="lead fw-normal text-muted mb-0"></p>
+            </div>
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                
+                      {{ include('user/_form.html.twig') }}
 
-    <a href="{{ path('app_user_index') }}">back to list</a>
+                    <a class="btn btn-primary my-3" href="{{ path('app_user_index') }}">Retour à la liste des utilisateurs</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 {% endblock %}
