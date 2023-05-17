@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-#[Route('/task')]
+#[Route('/user/task')]
 class TaskController extends AbstractController
 {
     #[Route('/', name: 'app_task_index', methods: ['GET'])]
@@ -26,14 +26,20 @@ class TaskController extends AbstractController
     #[Route('/new', name: 'app_task_new', methods: ['GET', 'POST'])]
     public function new(Request $request, TaskRepository $taskRepository): Response
     {
+       
         $task = new Task();
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $user = $this->getUser();
+
             $task->setCreatedAt(new DateTimeImmutable());
             $task->setIsDone(false);
+
+            $task->setUser($user);
+
             $taskRepository->save($task, true);
 
             return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
@@ -74,17 +80,31 @@ class TaskController extends AbstractController
     #[Route('/{id}', name: 'app_task_delete', methods: ['POST'])]
     public function delete( Request $request, Task $task, TaskRepository $taskRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->request->get('_token'))) {
-            $taskRepository->remove($task, true);
+        $user = $this->getUser()->getEmail();
+        $createdBy = $task->getUser()->getEmail();
+
+        if ($user == $createdBy or $this->isGranted('ROLE_ADMIN'))
+        {
+            if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->request->get('_token'))) {
+                $taskRepository->remove($task, true);
+            }
+            return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
         }
-        return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
+        else
+        {
+            $this->addFlash('danger', "Vous n'avez pas les autorisations pour supprimer cette tâche");
+
+            return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
+        }
+       
     }
 
     #[Route('/{id}/toggle', name: 'app_task_toggle', methods: ['GET', 'POST'])]
-    public function toggleTaskAction(Task $task): Response
+    public function toggleTaskAction(Task $task, TaskRepository $taskRepository): Response
     {
         $task->toggle(!$task->isDone());
-        $this->getDoctrine()->getManager()->flush();
+
+        $taskRepository->save($task, true);
 
         $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
 

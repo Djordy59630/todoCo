@@ -39,12 +39,13 @@
                              {% if is_granted('ROLE_ADMIN') %}
                             <li class="nav-item"><a class="nav-link" href="{{ path('app_user_new')}}">Utilisateurs</a></li>
                              {% endif %}
-                             <li class="nav-item"><a class="nav-link" href="{{ path('app_task_new')}}">Nouvelle tâche</a></li>
+                            {% if app.user %}
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_task_new')}}">Nouvelle tâche</a></li>
                             <li class="nav-item"><a class="nav-link" href="{{ path('app_task_index')}}">Liste des tâches</a></li>
-                            {% if not app.user %}
-                            <li class="nav-item"><a class="nav-link" href="{{ path('app_login')}}">Se connecter</a></li>
+                            <li class="nav-item "><a class="nav-link text-danger" href="{{ path('app_logout')}}">Déconnexion</a></li>
                              {% else %}
-                            <li class="nav-item "><a class="nav-link text-danger" href="{{ path('app_logout')}}">Déconnection</a></li>
+                            
+                            <li class="nav-item"><a class="nav-link" href="{{ path('app_login')}}">Se connecter</a></li>
                              {% endif %}
                             
                         </ul>
@@ -52,24 +53,30 @@
                 </div>
             </nav>
 
-            
+             {% for flash_message in app.session.flashBag.get('success') %}
+            <div class="alert alert-success" role="alert">
+                <strong>Superbe !</strong> {{ flash_message }}
+            </div>
+            {% endfor %}
+
+            {% for flash_message in app.session.flashBag.get('error') %}
+                <div class="alert alert-warning" role="alert">
+                    <strong>Oops !</strong> {{ flash_message }}
+                </div>
+            {% endfor %}
+
+             {% for flash_message in app.session.flashBag.get('danger') %}
+                <div class="alert alert-danger" role="alert">
+                    <strong>Oops !</strong> {{ flash_message }}
+                </div>
+            {% endfor %}
+
         {% block body %}
           
         {% endblock %}
             
 
-        {% for flash_message in app.session.flashBag.get('success') %}
-            <div class="alert alert-success" role="alert">
-                <strong>Superbe !</strong> {{ flash_message }}
-            </div>
-        {% endfor %}
-
-        {% for flash_message in app.session.flashBag.get('error') %}
-            <div class="alert alert-danger" role="alert">
-                <strong>Oops !</strong> {{ flash_message }}
-            </div>
-        {% endfor %}
-
+       
         </main>
         <!-- Footer-->
         <footer class="bg-white py-4 mt-auto">

@@ -40,25 +40,27 @@
                                         <form action="{{ path('app_task_toggle', {'id' : task.id }) }}">
                                             <button class="btn btn-success">
                                                 {% if not task.isDone %} <i
-                                                    class="fa-solid fa-toggle-on"></i>{% else %}Marquer non
-                                                terminée{% endif %}
+                                                    class="fa-solid fa-toggle-on"></i>{% else %}<i class="fa-solid fa-toggle-off"></i>{% endif %}
                                             </button>
                                         </form>
                                     </td>
                                     <td>
+                                        {% if app.user == task.user or is_granted('ROLE_ADMIN') %}
                                         <form method="post" action="{{ path('app_task_delete', {'id': task.id}) }}"
                                             onsubmit="return confirm('Etes vous certain de vouloir supprimer cette tâche');">
                                             <input type="hidden" name="_token"
                                                 value="{{ csrf_token('delete' ~ task.id) }}">
                                             <button class="btn btn-danger"><i class="fa-solid fa-trash"></i></button>
                                         </form>
+                                        {% endif %}
                                     </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
-                    <a class="btn btn-primary my-3" href="{{ path('app_task_index') }}">Retour à la liste des tâches</a>
+                     <a class="btn btn-warning my-3" href="{{ path('app_task_index') }}">Liste des tâches terminées</a>
+
                 </div>
             </div>
         </div>
