@@ -33,15 +33,22 @@
                                 <tr>
                                     <th>{{ task.title }}</th>
                                     <td>{{ task.content }}</td>
-                                    <td><a class="btn btn-primary"
-                                            href="{{ path('app_task_edit', {'id' : task.id }) }}"><i
-                                                class="fa-solid fa-pen-to-square"></i></a></td>
+                                    <td>
+                                        {% if not task.isDone %}
+                                            <a class="btn btn-primary" href="{{ path('app_task_edit', {'id' : task.id }) }}"><i class="fa-solid fa-pen-to-square"></i></a>
+                                        {% endif %}
+                                    </td>
                                     <td>
                                         <form action="{{ path('app_task_toggle', {'id' : task.id }) }}">
+                                            {% if  task.isDone %}
                                             <button class="btn btn-success">
-                                                {% if not task.isDone %} <i
-                                                    class="fa-solid fa-toggle-on"></i>{% else %}<i class="fa-solid fa-toggle-off"></i>{% endif %}
+                                                 <i class="fa-solid fa-toggle-on"></i>
                                             </button>
+                                            {% else %}
+                                             <button class="btn btn-danger">
+                                                 <i class="fa-solid fa-toggle-off"></i>
+                                            </button>
+                                            {% endif %}
                                         </form>
                                     </td>
                                     <td>

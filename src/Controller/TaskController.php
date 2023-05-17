@@ -38,8 +38,11 @@ class TaskController extends AbstractController
             $task->setCreatedAt(new DateTimeImmutable());
             $task->setIsDone(false);
 
-            $task->setUser($user);
-
+            if ( $form->get('user')->getData() == null ) 
+            {
+                $task->setUser($user);
+            }
+            
             $taskRepository->save($task, true);
 
             return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
@@ -62,19 +65,31 @@ class TaskController extends AbstractController
     #[Route('/{id}/edit', name: 'app_task_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Task $task, TaskRepository $taskRepository): Response
     {
-        $form = $this->createForm(TaskType::class, $task);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $taskRepository->save($task, true);
-
-            return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
+        if ($task->isDone() == false )
+        {
+            $form = $this->createForm(TaskType::class, $task);
+            $form->handleRequest($request);
+    
+            if ($form->isSubmitted() && $form->isValid()) {
+                $taskRepository->save($task, true);
+    
+                return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
+            }
+    
+            return $this->renderForm('task/edit.html.twig', [
+                'task' => $task,
+                'form' => $form,
+            ]);
         }
+        else
+        {
+            $this->addFlash('danger', "Erreur : Impossible d'éditer une tâche terminée");
 
-        return $this->renderForm('task/edit.html.twig', [
-            'task' => $task,
-            'form' => $form,
-        ]);
+             return $this->render('task/index.html.twig', [
+            'tasks' => $taskRepository->findAll(),
+            ]);
+        }
+      
     }
 
     #[Route('/{id}', name: 'app_task_delete', methods: ['POST'])]
