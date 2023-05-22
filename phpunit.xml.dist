@@ -19,7 +19,9 @@
 
     <testsuites>
         <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+            <file>tests/Controller/UserControllerTest.php</file>
+            <file>tests/Controller/TaskControllerTest.php</file>
+             <file>tests/Controller/CleanControllerTest.php</file>
         </testsuite>
     </testsuites>
 

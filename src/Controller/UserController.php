@@ -38,7 +38,6 @@ class UserController extends AbstractController
                 )
             );
 
-
             $userRepository->save($user, true);
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
@@ -46,7 +45,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user/new.html.twig', [
+        return $this->render('user/new.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
@@ -67,7 +66,6 @@ class UserController extends AbstractController
                 )
             );
 
-
             $userRepository->save($user, true);
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
@@ -75,7 +73,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user/edit.html.twig', [
+        return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
