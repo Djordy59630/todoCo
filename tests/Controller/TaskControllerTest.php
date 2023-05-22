@@ -46,6 +46,7 @@ class TaskControllerTest extends WebTestCase
         $form = $crawler->selectButton('Ajouter')->form();
         $form['task[title]'] = 'Titre';
         $form['task[content]'] = 'Je suis un super tâche';
+        // $form['task[user]'] = null;
      
         $client->submit($form);
 
