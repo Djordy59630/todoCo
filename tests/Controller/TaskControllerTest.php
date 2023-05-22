@@ -107,7 +107,51 @@ class TaskControllerTest extends WebTestCase
 
     public function testToggleTaskAction()
     {
-        // This will require authentication and form submission
+        $client = static::createClient();
+
+        $testUser = static::getContainer()
+        ->get(UserRepository::class)
+        ->findOneBy(['email' => 'admin0@example.com']);
+
+        // Connexion en tant que l'utilisateur test
+        $client->loginUser($testUser);
+
+        // You will need to create a user in the test database before you can run this test
+        $crawler = $client->request('GET', '/user/task/');
+
+        $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+
+        $crawler = $client->request('GET', '/user/task/');
+
+        $buttonCrawlerNode = $crawler->filter('#toggle_off');
+        $form = $buttonCrawlerNode->form();
+        $client->submit($form);
+
+        // Make sure the form was submitted successfully
+        $this->assertSame(Response::HTTP_SEE_OTHER, $client->getResponse()->getStatusCode());
+
+         // Fetch the user from the database
+         $toggleTask = static::getContainer()
+         ->get(TaskRepository::class)
+         ->findOneBy(['title' => 'TitreEdit']);
+
+         $this->assertSame(true, $toggleTask->isDone());
+
+         $crawler = $client->request('GET', '/user/task/');
+
+         $buttonCrawlerNode = $crawler->filter('#toggle_on');
+         $form = $buttonCrawlerNode->form();
+         $client->submit($form);
+
+         // Make sure the form was submitted successfully
+        $this->assertSame(Response::HTTP_SEE_OTHER, $client->getResponse()->getStatusCode());
+
+        // Fetch the user from the database
+        $toggleTask = static::getContainer()
+        ->get(TaskRepository::class)
+        ->findOneBy(['title' => 'TitreEdit']);
+
+        $this->assertSame(false, $toggleTask->isDone());
     }
 
 
