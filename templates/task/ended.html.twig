@@ -31,7 +31,7 @@
                             </thead>
                             <tbody>
                                 {% for task in tasks %}
-                                {% if task.isdone == false %}
+                                {% if task.isdone == true %}
                                 <tr>
                                     <th>{{ task.title }}</th>
                                     <td>{{ task.content }}</td>
@@ -72,7 +72,7 @@
                             </tbody>
                         </table>
                     </div>
-                     <a class="btn btn-warning my-3" href="{{ path('app_task_ended') }}">Liste des tâches terminées</a>
+                     <a class="btn btn-warning my-3" href="{{ path('app_task_index') }}">Liste des tâches en cours</a>
 
                 </div>
             </div>

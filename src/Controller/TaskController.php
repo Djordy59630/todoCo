@@ -23,6 +23,15 @@ class TaskController extends AbstractController
         ]);
     }
 
+    #[Route('/ended', name: 'app_task_ended', methods: ['GET'])]
+    public function ended(TaskRepository $taskRepository): Response
+    {
+        return $this->render('task/ended.html.twig', [
+            'tasks' => $taskRepository->findAll(),
+        ]);
+    }
+
+
     #[Route('/new', name: 'app_task_new', methods: ['GET', 'POST'])]
     public function new(Request $request, TaskRepository $taskRepository): Response
     {
