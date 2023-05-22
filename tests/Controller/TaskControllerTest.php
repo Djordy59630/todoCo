@@ -135,7 +135,7 @@ class TaskControllerTest extends WebTestCase
 
          $this->assertSame(true, $toggleTask->isDone());
 
-         $crawler = $client->request('GET', '/user/task/');
+         $crawler = $client->request('GET', '/user/task/ended');
 
          $buttonCrawlerNode = $crawler->filter('#toggle_on');
          $form = $buttonCrawlerNode->form();
