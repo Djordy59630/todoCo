@@ -42,11 +42,11 @@
                                         <form action="{{ path('app_task_toggle', {'id' : task.id }) }}">
                                             {% if  task.isDone %}
                                             <button class="btn btn-success">
-                                                 <i class="fa-solid fa-toggle-on"></i>
+                                               <i class="fa-solid fa-circle-check"></i>
                                             </button>
                                             {% else %}
                                              <button class="btn btn-danger">
-                                                 <i class="fa-solid fa-toggle-off"></i>
+                                                <i class="fa-solid fa-circle-xmark"></i>
                                             </button>
                                             {% endif %}
                                         </form>

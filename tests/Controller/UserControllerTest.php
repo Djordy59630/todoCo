@@ -11,7 +11,7 @@ class UserControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
     private UserRepository $repository;
-    private string $path = '/test/';
+    private string $path = 'admin/user/';
 
     protected function setUp(): void
     {
@@ -25,10 +25,14 @@ class UserControllerTest extends WebTestCase
 
     public function testIndex(): void
     {
+        
+        $this->client->followRedirects();
+  
         $crawler = $this->client->request('GET', $this->path);
+       
 
-        self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('User index');
+        $this->assertEquals(200,  $this->client->getResponse()->getStatusCode());
+        $this->assertEquals('Connexion', $crawler->filter('#title')->text());
 
         // Use the $crawler to perform additional assertions e.g.
         // self::assertSame('Some text on the page', $crawler->filter('.p')->first());
