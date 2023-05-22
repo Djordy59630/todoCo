@@ -15,7 +15,7 @@
                 <a class="btn btn-primary" href="{{ path('app_task_new') }}">Créer une tâche</a>
             </div>
             <div class="row gx-5 justify-content-center">
-                <div class="col-lg-8 col-xl-6">
+                <div class="col-lg-9 col-xl-9">
 
                     <div class="table-responsive">
                         <table class="table">
@@ -23,6 +23,7 @@
                                 <tr>
                                     <th scope="col">Titre</th>
                                     <th scope="col">Description</th>
+                                    <th scope="col">Utilisateur</th>
                                     <th scope="col">Edition</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Supprimer</th>
@@ -33,12 +34,14 @@
                                 <tr>
                                     <th>{{ task.title }}</th>
                                     <td>{{ task.content }}</td>
+                                    <td>{{ task.user.username }}</td>
                                     <td>
-                                        {% if not task.isDone %}
+                                        {% if not task.isDone and task.user == app.user or is_granted('ROLE_ADMIN')  %}
                                             <a class="btn btn-primary" href="{{ path('app_task_edit', {'id' : task.id }) }}"><i class="fa-solid fa-pen-to-square"></i></a>
                                         {% endif %}
                                     </td>
                                     <td>
+                                        {% if app.user == task.user or is_granted('ROLE_ADMIN') %}
                                         <form action="{{ path('app_task_toggle', {'id' : task.id }) }}">
                                             {% if  task.isDone %}
                                             <button id="toggle_on" class="btn btn-success">
@@ -49,6 +52,7 @@
                                                 <i class="fa-solid fa-circle-xmark"></i>
                                             </button>
                                             {% endif %}
+                                        {% endif %}
                                         </form>
                                     </td>
                                     <td>

@@ -103,8 +103,6 @@ class TaskControllerTest extends WebTestCase
         $this->assertSame('TitreEdit', $newTask->getTitle());
     }
 
-  
-
     public function testToggleTaskAction()
     {
         $client = static::createClient();
