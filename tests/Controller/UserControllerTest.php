@@ -2,11 +2,21 @@
 
 namespace App\Tests\Controller;
 
+use App\Entity\Task;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
+
+class NotAUserButPasswordAuthenticated implements PasswordAuthenticatedUserInterface {
+    public function getPassword(): ?string {
+        return null;
+    }
+}
 
 class UserControllerTest extends WebTestCase
 {
@@ -103,6 +113,8 @@ class UserControllerTest extends WebTestCase
         // Connexion en tant que l'utilisateur test
         $client->loginUser($testUser);
 
+        static::getContainer()->get(UserRepository::class)->upgradePassword( $editUser, "passwordEdit");
+
         // You will need to create a user in the test database before you can run this test
         $crawler = $client->request('GET', '/admin/user/' . $editUser->getId() .'/edit');
 
@@ -129,6 +141,10 @@ class UserControllerTest extends WebTestCase
         // Make sure the user was created
         $this->assertNotNull($newUser);
         $this->assertSame('usernameEdit', $newUser->getUsername());
+
+        $this->expectException(UnsupportedUserException::class);
+        $notUser = new NotAUserButPasswordAuthenticated();
+        static::getContainer()->get(UserRepository::class)->upgradePassword(  $notUser, "passwordEdit");
 
     }
     

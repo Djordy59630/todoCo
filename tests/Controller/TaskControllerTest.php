@@ -24,6 +24,8 @@ class TaskControllerTest extends WebTestCase
         $client->request('GET', '/user/task/');
 
         $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+
+        
     }
 
     public function testNew()
@@ -58,9 +60,12 @@ class TaskControllerTest extends WebTestCase
             ->get(TaskRepository::class)
             ->findOneBy(['title' => 'Titre']);
 
-        // Make sure the user was created
+        
         $this->assertNotNull($newTask);
-        $this->assertSame('Titre', $newTask->getTitle());
+        $this->assertNotNull($testUser->getTasks());
+        $testUser->addTask($newTask);
+        $testUser->removeTask($newTask);
+      
     }
 
     public function testEdit()

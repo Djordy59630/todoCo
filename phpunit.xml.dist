@@ -19,9 +19,11 @@
 
     <testsuites>
         <testsuite name="Project Test Suite">
+            <file>tests/Controller/DefaultControllerTest.php</file>
             <file>tests/Controller/UserControllerTest.php</file>
             <file>tests/Controller/TaskControllerTest.php</file>
-             <file>tests/Controller/CleanControllerTest.php</file>
+            <file>tests/Controller/AuthControllerTest.php</file>
+            <file>tests/Controller/CleanControllerTest.php</file>
         </testsuite>
     </testsuites>
 
