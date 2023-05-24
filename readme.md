@@ -39,5 +39,21 @@ Identifiants de connexion pour les compte admin :
 - email : user[0 - 9]@example.com
 - Mot de passe : password123
 
+### Tests Unitaire
+
+1. Configurer la base de donnée de test dans le fichier `.env.test`
+`
+KERNEL_CLASS='App\Kernel'
+APP_SECRET='$ecretf0rt3st'
+SYMFONY_DEPRECATIONS_HELPER=999999
+PANTHER_APP_ENV=panther
+PANTHER_ERROR_SCREENSHOT_DIR=./var/error-screenshots
+
+DATABASE_URL="mysql://root:@127.0.0.1:3307/todoco?serverVersion=10.6.5-MariaDB"
+`
+2. Creer la base de donnée test avec `symfony console doctrine:database:create --env=test`
+3. Exécuter la commande `php bin/console doctrine:migrations:migrate --env=test`.
+4. lancer les test avec `symfony php bin/phpunit`
+
 
 Profitez bien ! :smile:
