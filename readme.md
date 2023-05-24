@@ -31,8 +31,13 @@ Dernière analyse Codacy:
 
 1. Configurer le DNS du mailer en fonction de votre environnement local.
 
-Identifiants de connexion pour le compte :
-- Nom d'utilisateur : Michel
-- Mot de passe : MonSuperMotDePasse
+Identifiants de connexion pour les compte admin :
+- email : admin[0 - 9]@example.com
+- Mot de passe : password123
+
+Identifiants de connexion pour les compte admin :
+- email : user[0 - 9]@example.com
+- Mot de passe : password123
+
 
 Profitez bien ! :smile:
