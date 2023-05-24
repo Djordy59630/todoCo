@@ -1,7 +1,7 @@
 # Projet TodoCo
 
 Dernière analyse Codacy:
-<a href="https://app.codacy.com/gh/Djordy59630/todoCo/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade"><img src="https://app.codacy.com/project/badge/Grade/c719b13284874e0abc9d693fe8a93ac1"/></a>
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c719b13284874e0abc9d693fe8a93ac1)](https://app.codacy.com/gh/Djordy59630/todoCo/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 ## Instructions
 
