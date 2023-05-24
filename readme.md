@@ -51,7 +51,7 @@ PANTHER_ERROR_SCREENSHOT_DIR=./var/error-screenshots
 
 DATABASE_URL="mysql://root:@127.0.0.1:3307/todoco?serverVersion=10.6.5-MariaDB"
 ```
-2. Creer la base de donnée test avec `symfony console doctrine:database:create --env=test`
+2. Creer l'environement test avec `symfony console doctrine:database:create --env=test`
 3. Exécuter la commande `php bin/console doctrine:migrations:migrate --env=test`.
 4. lancer les test avec `symfony php bin/phpunit`
 
