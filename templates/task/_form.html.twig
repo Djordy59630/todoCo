@@ -1,4 +1,31 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+
+    <div class="my-3">
+        {{ form_label(form.title) }}
+        {{ form_widget(form.title) }}
+        {{ form_errors(form.title) }}
+    </div>
+
+     <div class="my-3">
+        {{ form_label(form.content) }}
+        {{ form_widget(form.content) }}
+        {{ form_errors(form.content) }}
+    </div>
+
+    {% if is_granted('ROLE_ADMIN') %}
+     <div class="my-3">
+        {{ form_label(form.user) }}
+        {{ form_widget(form.user) }}
+        {{ form_errors(form.user) }}
+    </div>
+    {% else %}
+
+     <div class="my-3 d-none">
+        {{ form_label(form.user) }}
+        {{ form_widget(form.user) }}
+        {{ form_errors(form.user) }}
+    </div>
+
+    {% endif %}
     <button class="btn btn-success pull-right">{{ button_label|default('Ajouter') }}</button>
 {{ form_end(form) }}
